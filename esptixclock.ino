@@ -2,6 +2,8 @@
 #include <WiFiManager.h>
 #include <NTPClient.h>
 
+#include "tix.h"
+
 const char *NTP_SERVER = "nl.pool.ntp.org";
 // enter your time zone (https://remotemonitoringsystems.ca/time-zone-abbreviations.php)
 const char *TZ_INFO = "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00";   // Europe/Amsterdam
@@ -21,6 +23,8 @@ void setup(void)
 
     // get IP address
     wifiManager.autoConnect("ESP-TIXCLOCK");
+    
+    tix_enable();
 }
 
 void loop(void)
