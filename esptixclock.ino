@@ -187,7 +187,9 @@ void loop(void)
     }
 
     // NTP update
-    ntpClient.update();
+    if (WiFi.status() == WL_CONNECTED) {
+        ntpClient.update();
+    }
 }
 
 
