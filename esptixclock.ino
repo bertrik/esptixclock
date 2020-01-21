@@ -136,6 +136,8 @@ void setup(void)
     Serial.println("\nESP-TIXCLOCK");
     EditInit(editline, sizeof(editline));
 
+    // display init
+    memset(fb, 0, sizeof(fb));
     display_init(vsync);
 
     // get IP address
