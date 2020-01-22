@@ -142,10 +142,18 @@ void setup(void)
 
     // get IP address
     WiFi.begin("revspace-pub-2.4ghz");
+    while (WiFi.status() != WL_CONNECTED) {
+        print(".");
+        delay(500);
+    }
+    print("\n");
 
     // NTP setup
     setenv("TZ", TZ_INFO, 1);
     ntpClient.begin();
+
+    // start running the display
+    display_enable();
 }
 
 void loop(void)
