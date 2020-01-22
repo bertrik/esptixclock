@@ -20,21 +20,13 @@ static NTPClient ntpClient(ntpUDP, NTP_SERVER);
 
 static char editline[120];
 static uint8_t fb[DISPLAY_HEIGHT][DISPLAY_WIDTH];
-static volatile uint32_t frame_counter = 0;
-
-// vsync callback
-static void vsync(uint32_t frame_nr)
-{
-    display_write_framebuffer(fb);
-    frame_counter = frame_nr;
-}
 
 static int do_fps(int argc, char *argv[])
 {
     print("Measuring ...");
-    uint32_t count = frame_counter;
+    uint32_t count = display_get_framecounter();
     delay(1000);
-    int fps = frame_counter - count;
+    int fps = display_get_framecounter() - count;
     print("FPS = %d\n", fps);
     return CMD_OK;
 }
@@ -138,7 +130,7 @@ void setup(void)
 
     // display init
     memset(fb, 0, sizeof(fb));
-    display_init(vsync);
+    display_init();
 
     // get IP address
     WiFi.begin("revspace-pub-2.4ghz");

@@ -3,10 +3,11 @@
 #define DISPLAY_WIDTH   9
 #define DISPLAY_HEIGHT  3
 
-typedef void (vsync_fn_t) (uint32_t frame_nr);
-
-void display_init(vsync_fn_t * vsync);
+void display_init(void);
 void display_write_framebuffer(const void *data);
+
+uint32_t display_get_framecounter();
+void *display_get_framebuffer();
 
 void display_enable(void);
 void display_disable(void);
