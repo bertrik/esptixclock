@@ -8,6 +8,7 @@
 #include "cmdproc.h"
 #include "editline.h"
 #include "display.h"
+#include "draw.h"
 
 #define print    Serial.printf
 
@@ -19,7 +20,6 @@ static WiFiUDP ntpUDP;
 static NTPClient ntpClient(ntpUDP, NTP_SERVER);
 
 static char editline[120];
-static uint8_t fb[DISPLAY_HEIGHT][DISPLAY_WIDTH];
 
 static int do_fps(int argc, char *argv[])
 {
@@ -50,15 +50,6 @@ static int do_datetime(int argc, char *argv[])
     return CMD_OK;
 }
 
-static int setpixel(int x, int y, int v)
-{
-    if ((x < 0) || (x >= DISPLAY_WIDTH) || (y < 0) || (y >= DISPLAY_HEIGHT)) {
-        return CMD_ARG;
-    }
-    fb[y][x] = v;
-    return CMD_OK;
-}
-
 static int do_pix(int argc, char *argv[])
 {
     if (argc < 3) {
@@ -70,7 +61,7 @@ static int do_pix(int argc, char *argv[])
     if (argc > 3) {
         v = atoi(argv[3]);
     }
-    return setpixel(x, y, v);
+    return draw_pixel(x, y, v) ? CMD_OK : CMD_ARG;
 }
 
 static int do_enable(int argc, char *argv[])
@@ -129,8 +120,8 @@ void setup(void)
     EditInit(editline, sizeof(editline));
 
     // display init
-    memset(fb, 0, sizeof(fb));
     display_init();
+    draw_init(display_get_framebuffer());
 
     // get IP address
     WiFi.begin("revspace-pub-2.4ghz");

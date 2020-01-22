@@ -83,9 +83,9 @@ uint32_t display_get_framecounter()
     return framecounter;
 }
 
-void *display_get_framebuffer()
+uint8_t *display_get_framebuffer()
 {
-    return framebuffer;
+    return (uint8_t *)framebuffer;
 }
 
 void display_enable(void)
