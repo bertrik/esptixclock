@@ -52,11 +52,6 @@ static void IRAM_ATTR display_hsync(void)
     digitalWrite(rows[row], 0);
 }
 
-void display_write_framebuffer(const void *data)
-{
-    memcpy(framebuffer, data, sizeof(framebuffer));
-}
-
 void display_init(void)
 {
     // configure rows and columns
